@@ -1,10 +1,11 @@
 import { useState } from "react";
-
+import RegistrationHeader from "./RegistrationHeader"
 import classes from "./RegisteredPage.module.css";
 import "../../App.css";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import NavigationIcon from "@mui/icons-material/Navigation";
+import PWDRequisite from "./PasswordRequisite"
 
 //TODO password truthy falsy functinality
 const RegistrationPage = () => {
@@ -25,17 +26,24 @@ const RegistrationPage = () => {
     !enteredLastNameIsValid && enteredLastNameIsTouched;
 
   //Password Validity
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [enteredPasswordIsTouched, setEnteredPasswordIsTouched] =
-    useState(false);
+  const [enteredPassword, setEnteredPassword] = useState(""); 
+  const [pwdRequisite, setPwdRequisite] = useState(false)
 
+    // P A S S W O R D  V A L I D A T I O N
+    const[checks,setChecks] = useState({
+      capsLetterCheck:false,
+      numberCheck:false,
+      pwdLengthCheck:false,
+      specialCharCheck:false
+    })
+   
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   // R E G E X  V A L I D A T I O N
   
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    console.log("pressed")
+
    
   };
 
@@ -62,17 +70,37 @@ const RegistrationPage = () => {
     setEnteredPassword(event.target.value);
   };
 
-  const passwordTouchHandler = () => {
-    setEnteredPasswordIsTouched(false);
-  };
-
   const passwordFocusHandler = () => {
-    setEnteredPasswordIsTouched(true);
-  };
+    setPwdRequisite(true)
+  }
+
+  const passwordBlurHandler = () => {
+    setPwdRequisite(false)
+  }
+
+  const passwordKeyHandler = (e) => {
+    const {value} = e.target
+    // const pwdLengthCheck = /(?=.*[_\W]).{8,15}$/.test(value) 
+    const pwdLengthCheck = value.length >= 8  // has to be 8 to 15 characters
+    // const lowerCaseRegex = /(?=.*[a-z])/.test(value) //lower case
+    const capsLetterCheck = /(?=.*[A-Z])/.test(value) // capital letter
+    const numberCheck = /[0-9]/.test(value)
+    const specialCharCheck = /(?=.*[_\W])/.test(value)
+    setChecks({
+      capsLetterCheck,
+      numberCheck,
+      pwdLengthCheck,
+      specialCharCheck,
+
+    })
+  }
+ 
   
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
   }
+
+  
 
 
   const inputEmailHandler = (event) => {
@@ -83,13 +111,13 @@ const RegistrationPage = () => {
       setMessage(null)
     }
     setEmail(event.target.value)
-    console.log("email");
   };
 
   // TODO
 
   return (
     <>
+    <RegistrationHeader/>
       <form className={classes["form-box"]} onSubmit={formSubmitHandler}>
         <div className={classes["form-inner"]}>
           <h2 className="title"> Registration </h2>
@@ -99,7 +127,7 @@ const RegistrationPage = () => {
           </div>
           <div className={classes["form-group"]}>
             {inputFirstNameIsInvalid && (
-              <p style={{ color: "red" }}> First name must not be empty</p>
+              <p style={{ color: "red", marginBottom:0}}> First name must not be empty</p>
             )}
             <input
               style={{
@@ -115,7 +143,7 @@ const RegistrationPage = () => {
           </div>
           <div className={classes["form-group"]}>
             {inputLastNameIsInvalid && (
-              <p style={{ color: "red" }}> Last name must not be empty</p>
+              <p style={{ color: "red" , marginBottom:0 }}> Last name must not be empty</p>
             )}
             <input
               type="text"
@@ -132,19 +160,25 @@ const RegistrationPage = () => {
           </div>
           <div className={classes["form-group"]}>
             <input
-              type="text"
+              type="password"
               placeholder="Enter Password"
-              value={enteredPassword}
               onChange={inputPasswordHandler}
+              value={enteredPassword}
               onFocus={passwordFocusHandler}
-              onBlur={passwordTouchHandler}
+              onBlur={passwordBlurHandler}
+              onKeyUp={passwordKeyHandler}
             />
+            {pwdRequisite ? (<PWDRequisite 
+              capsLetterFlag = {checks.capsLetterCheck ? "valid" : "invalid"}
+              numberCheckFlag = {checks.numberCheck ? "valid" : "invalid"}
+              pwdLengthCheckFlag = {checks.pwdLengthCheck ? "valid" : "invalid"}
+              specialCharCheckFlag = {checks.specialCharCheck ? "valid" : "invalid"}
+            
+            
+            />) : null}
             <label htmlFor="Password"> Enter New Password</label>
           </div>
-          <div className={classes["form-group"]}>
-            <input type="text" placeholder="Enter Password" />
-            <label htmlFor="Password"> Confirm New Password</label>
-          </div>
+
 
           <div className={classes["form-group"]}>
             <h4> Email Adress Verification</h4>

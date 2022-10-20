@@ -1,9 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: monsterrat, sans-serif;
-}
 
 input,
 button {
@@ -14,11 +8,13 @@ button {
 }
 
 .form-box {
+  top:20px;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: black;
+
+  background-image:linear-gradient(to bottom right, #5F0F40  , #310E68 );
   margin-left: auto;
 }
 
@@ -31,7 +27,7 @@ form:after {
   content: "";
   display: block;
   position: absolute;
-  top: -5px;
+  top: -15px;
   left: -5px;
   right: -5px;
   bottom: -5px;
@@ -47,8 +43,9 @@ form .form-inner {
 }
 
 .form-inner {
-  border: 5px solid white;
-  background-image: linear-gradient(to bottom right, #0652C5,#2A2A72);
+  border: 3px solid black;
+  background-image: linear-gradient(to bottom right, #000000  , #130F40 ); 
+  border-radius: 25px;
 }
 
 input {
@@ -57,10 +54,10 @@ input {
 }
 
 form .form-inner h2 {
-  color: black;
+  color: white;
   font-size: 28px;
   font-weight: 500;
-  margin-bottom: 30px;
+  margin-top: 0;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -74,18 +71,18 @@ form .form-inner h2 {
 }
 
 form .form-inner h4{
-    color:black;
+    color:white;
     text-align:justify;
     text-align:center;
     align-items:center;
     display:flex;
     justify-content: center;
-    margin-top:3px;
+    margin-top:0px;
 }
 form .form-inner .form-group {
   display: block;
   width: 300px;
-  margin-bottom: 2px;
+  
   top:100px;
 }
 label{
@@ -96,7 +93,7 @@ label{
   display: block;
   color: black;
   font-size: 12px;
-  margin-bottom: 5px;
+
   transition: 0.4s;
 }
 
@@ -110,7 +107,7 @@ label{
 .form-inner .form-group input {
  margin: bottom 5px;
   display: block;
-  width: 100%;
+  width: 93%;
   padding: 10px 15px;
   background-color: #f8f8f8;
   border-radius: 8px;
@@ -124,4 +121,12 @@ form .form-inner .form-group input:focus {
 form .form-inner input[type="submit"] {
   display: inline-block;
   padding: 10px 15px;
+}
+
+.valid{
+  color:green;
+}
+
+.invalid{
+  color:red;
 }
